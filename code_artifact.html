@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>個人自我介紹 | Resume & Portfolio</title>
+    
+    <!-- Google Fonts: Inter & Noto Sans TC -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans TC', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a',
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 4s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* 自訂細節樣式與玻璃擬態效果 */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .dark .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        /* 時間軸連接線 */
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 20px;
+            width: 2px;
+            background: #e2e8f0;
+        }
+        .dark .timeline-line::before {
+            background: #334155;
+        }
+        @media (min-width: 768px) {
+            .timeline-line::before {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 transition-colors duration-300 font-sans antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- 導覽列 Navbar -->
+    <nav class="fixed top-0 left-0 w-full z-50 transition-all duration-300 glass-card border-b border-slate-200/50 dark:border-slate-800/50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- 💡 [可修改] LOGO / 品牌名稱 -->
+            <a href="#" class="text-xl font-bold bg-gradient-to-r from-brand-600 to-indigo-600 bg-clip-text text-transparent">
+                <i class="fa-solid font-mono text-brand-600 dark:text-brand-400 mr-2">&lt;Alex/&gt;</i>
+            </a>
+
+            <!-- 桌面版選單 -->
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium">
+                <a href="#about" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">關於我</a>
+                <a href="#skills" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">專業技能</a>
+                <a href="#experience" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">經歷專案</a>
+                <a href="#contact" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">聯絡方式</a>
+            </div>
+
+            <!-- 右側功能鈕 (主題切換 + 手機選單) -->
+            <div class="flex items-center space-x-3">
+                <button id="theme-toggle" class="p-2.5 rounded-full text-slate-600 dark:text-slate-300 hover:bg-slate-200/60 dark:hover:bg-slate-800 transition-all focus:outline-none" aria-label="Toggle Theme">
+                    <i id="theme-toggle-dark-icon" class="fas fa-moon text-lg hidden"></i>
+                    <i id="theme-toggle-light-icon" class="fas fa-sun text-lg text-amber-400 hidden"></i>
+                </button>
+                
+                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-200/60 dark:hover:bg-slate-800 focus:outline-none">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- 手機版下拉選單 -->
+        <div id="mobile-menu" class="hidden md:hidden px-4 pt-2 pb-4 space-y-2 bg-white/95 dark:bg-slate-900/95 border-b border-slate-200 dark:border-slate-800">
+            <a href="#about" class="mobile-link block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800">關於我</a>
+            <a href="#skills" class="mobile-link block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800">專業技能</a>
+            <a href="#experience" class="mobile-link block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800">經歷專案</a>
+            <a href="#contact" class="mobile-link block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800">聯絡方式</a>
+        </div>
+    </nav>
+
+    <!-- 1. 個人簡介與頭像區 Hero Section -->
+    <section class="min-h-screen pt-28 pb-16 flex items-center relative overflow-hidden">
+        <!-- 背景漸層光暈發光效果 -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-brand-500/10 dark:bg-brand-500/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-10 right-10 w-72 h-72 bg-indigo-500/10 dark:bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- 文字介紹區 -->
+                <div class="lg:col-span-7 text-center lg:text-left order-2 lg:order-1">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-brand-50 dark:bg-brand-900/40 text-brand-600 dark:text-brand-300 border border-brand-200 dark:border-brand-700/50 mb-6">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <!-- 💡 [可修改] 目前求職或接案狀態 -->
+                        開放全職與遠端合作機會
+                    </div>
+                    
+                    <!-- 💡 [可修改] 姓名與職務稱呼 -->
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-4">
+                        你好，我是 <span class="bg-gradient-to-r from-brand-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">陳小明</span>
+                    </h1>
+                    <p class="text-xl sm:text-2xl font-medium text-slate-600 dark:text-slate-300 mb-6">
+                        <!-- 💡 [可修改] 專業職稱標語 -->
+                        資深前端工程師 / UI&UX 設計熱愛者
+                    </p>
+                    
+                    <!-- 💡 [可修改] 簡短一句話自我介紹 -->
+                    <p class="text-slate-600 dark:text-slate-400 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 mb-8 leading-relaxed">
+                        擁有 4+ 年 Web 開發經驗，熱衷於打造兼具絕佳使用者體驗與高效能的高品質網頁應用程式。擅長 React、Tailwind CSS 與現代前端生態系。
+                    </p>
+                    
+                    <!-- 按鈕行動區 CTA -->
+                    <div class="flex flex-wrap justify-center lg:justify-start gap-4 mb-8">
+                        <a href="#contact" class="px-6 py-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-medium shadow-lg shadow-brand-500/25 transition-all transform hover:-translate-y-0.5">
+                            <i class="fas fa-paper-plane mr-2"></i>立即聯絡我
+                        </a>
+                        <!-- 💡 [可修改] 履歷下載連結 -->
+                        <a href="#" onclick="alertToast('履歷下載功能可改為您的 PDF 連結！')" class="px-6 py-3 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-medium transition-all transform hover:-translate-y-0.5">
+                            <i class="fas fa-download mr-2"></i>下載履歷 CV
+                        </a>
+                    </div>
+                    
+                    <!-- 社群連結 -->
+                    <div class="flex items-center justify-center lg:justify-start space-x-4 text-slate-500 dark:text-slate-400">
+                        <span class="text-xs uppercase tracking-wider font-semibold mr-2">Follow Me:</span>
+                        <!-- 💡 [可修改] 社群網址 -->
+                        <a href="https://github.com" target="_blank" rel="noopener" class="p-2.5 rounded-lg bg-white dark:bg-slate-800 shadow-sm hover:text-brand-600 dark:hover:text-brand-400 transition-all hover:scale-110" title="GitHub">
+                            <i class="fab fa-github text-lg"></i>
+                        </a>
+                        <a href="https://linkedin.com" target="_blank" rel="noopener" class="p-2.5 rounded-lg bg-white dark:bg-slate-800 shadow-sm hover:text-brand-600 dark:hover:text-brand-400 transition-all hover:scale-110" title="LinkedIn">
+                            <i class="fab fa-linkedin text-lg"></i>
+                        </a>
+                        <a href="mailto:alex@example.com" class="p-2.5 rounded-lg bg-white dark:bg-slate-800 shadow-sm hover:text-brand-600 dark:hover:text-brand-400 transition-all hover:scale-110" title="Email">
+                            <i class="fas fa-envelope text-lg"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 頭像區 -->
+                <div class="lg:col-span-5 flex justify-center order-1 lg:order-2">
+                    <div class="relative w-64 h-64 sm:w-80 sm:h-80 animate-float">
+                        <!-- 裝飾外圈漸層 -->
+                        <div class="absolute inset-0 rounded-3xl bg-gradient-to-tr from-brand-500 to-purple-600 rotate-6 opacity-70 blur-md"></div>
+                        <!-- 💡 [可修改] 個人頭像照片 (建議使用正方形照片) -->
+                        <div class="relative w-full h-full rounded-3xl overflow-hidden border-4 border-white dark:border-slate-800 shadow-2xl bg-slate-200 dark:bg-slate-700">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=800&auto=format&fit=crop" 
+                                 alt="Avatar" 
+                                 class="w-full h-full object-cover"
+                                 onerror="this.onerror=null; this.src='https://placehold.co/400x400/2563eb/ffffff?text=Alex';">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. 關於我 About Me Section -->
+    <section id="about" class="py-20 bg-slate-100/60 dark:bg-slate-800/40">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h2 class="text-3xl font-bold mb-3">關於我</h2>
+                <div class="w-16 h-1 bg-brand-600 mx-auto rounded-full mb-4"></div>
+                <p class="text-slate-600 dark:text-slate-400">深入了解我的背景、工作哲學與核心優勢</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+                <!-- 左側：故事與特點 -->
+                <div class="glass-card p-8 rounded-2xl shadow-sm flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xl font-bold mb-4 text-brand-600 dark:text-brand-400">
+                            <i class="fas fa-user-check mr-2"></i>專業背景與特色
+                        </h3>
+                        <!-- 💡 [可修改] 詳細自我介紹 -->
+                        <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                            我是一名對技術充滿熱情的前端開發者，畢業於國立資訊工程學系。擅長將複雜的需求轉化為直覺、優雅且流暢的數位體驗。
+                        </p>
+                        <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-6">
+                            重視團隊溝通、程式碼可維護性（Clean Code）以及跨瀏覽器相容性。除了前端研發，我也注重 SEO 最佳化與網頁載入速度調校。
+                        </p>
+                    </div>
+
+                    <!-- 興趣/特色標籤 -->
+                    <div class="flex flex-wrap gap-2 pt-4 border-t border-slate-200 dark:border-slate-700">
+                        <span class="px-3 py-1 rounded-lg text-xs font-medium bg-slate-200/70 dark:bg-slate-700/70 text-slate-700 dark:text-slate-300">💡 創新思考</span>
+                        <span class="px-3 py-1 rounded-lg text-xs font-medium bg-slate-200/70 dark:bg-slate-700/70 text-slate-700 dark:text-slate-300">⚡ 效能最佳化</span>
+                        <span class="px-3 py-1 rounded-lg text-xs font-medium bg-slate-200/70 dark:bg-slate-700/70 text-slate-700 dark:text-slate-300">🎨 UI/UX 敏感度</span>
+                        <span class="px-3 py-1 rounded-lg text-xs font-medium bg-slate-200/70 dark:bg-slate-700/70 text-slate-700 dark:text-slate-300">🤝 團隊敏捷開發</span>
+                    </div>
+                </div>
+
+                <!-- 右側：數據統計卡片 -->
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- 💡 [可修改] 關鍵統計數據 -->
+                    <div class="glass-card p-6 rounded-2xl flex flex-col justify-center items-center text-center shadow-sm hover:border-brand-500/50 transition-all">
+                        <i class="fas fa-briefcase text-3xl text-brand-600 mb-3"></i>
+                        <span class="text-4xl font-extrabold mb-1">4+</span>
+                        <span class="text-xs text-slate-500 dark:text-slate-400">開發經驗 (年)</span>
+                    </div>
+                    <div class="glass-card p-6 rounded-2xl flex flex-col justify-center items-center text-center shadow-sm hover:border-brand-500/50 transition-all">
+                        <i class="fas fa-folder-open text-3xl text-indigo-600 mb-3"></i>
+                        <span class="text-4xl font-extrabold mb-1">25+</span>
+                        <span class="text-xs text-slate-500 dark:text-slate-400">完成專案數量</span>
+                    </div>
+                    <div class="glass-card p-6 rounded-2xl flex flex-col justify-center items-center text-center shadow-sm hover:border-brand-500/50 transition-all">
+                        <i class="fas fa-smile text-3xl text-emerald-600 mb-3"></i>
+                        <span class="text-4xl font-extrabold mb-1">98%</span>
+                        <span class="text-xs text-slate-500 dark:text-slate-400">客戶/主管滿意度</span>
+                    </div>
+                    <div class="glass-card p-6 rounded-2xl flex flex-col justify-center items-center text-center shadow-sm hover:border-brand-500/50 transition-all">
+                        <i class="fas fa-code-commit text-3xl text-purple-600 mb-3"></i>
+                        <span class="text-4xl font-extrabold mb-1">1,200+</span>
+                        <span class="text-xs text-slate-500 dark:text-slate-400">Git Commits</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. 核心技能展示 Core Skills -->
+    <section id="skills" class="py-20">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h2 class="text-3xl font-bold mb-3">核心技能</h2>
+                <div class="w-16 h-1 bg-brand-600 mx-auto rounded-full mb-4"></div>
+                <p class="text-slate-600 dark:text-slate-400">我所熟練掌握的程式語言、框架與專業工具</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                
+                <!-- 前端開發技能 -->
+                <div class="glass-card p-8 rounded-2xl shadow-sm">
+                    <h3 class="text-lg font-bold mb-6 flex items-center gap-2">
+                        <i class="fas fa-code text-brand-600"></i> 前端開發 Frontend
+                    </h3>
+                    <div class="space-y-5">
+                        <!-- 💡 [可修改] 技能名稱與百分比 -->
+                        <div>
+                            <div class="flex justify-between text-sm font-medium mb-1">
+                                <span>React / Next.js</span>
+                                <span class="text-slate-500">90%</span>
+                            </div>
+                            <div class="w-full h-2.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                                <div class="h-full bg-brand-600 rounded-full transition-all duration-1000" style="width: 90%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-sm font-medium mb-1">
+                                <span>JavaScript (ES6+) / TypeScript</span>
+                                <span class="text-slate-500">85%</span>
+                            </div>
+                            <div class="w-full h-2.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                                <div class="h-full bg-brand-600 rounded-full transition-all duration-1000" style="width: 85%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-sm font-medium mb-1">
+                                <span>Tailwind CSS / HTML5 / CSS3</span>
+                                <span class="text-slate-500">95%</span>
+                            </div>
+                            <div class="w-full h-2.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                                <div class="h-full bg-brand-600 rounded-full transition-all duration-1000" style="width: 95%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-sm font-medium mb-1">
+                                <span>Vue.js</span>
+                                <span class="text-slate-500">75%</span>
+                            </div>
+                            <div class="w-full h-2.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                                <div class="h-full bg-brand-600 rounded-full transition-all duration-1000" style="width: 75%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 後端與開發工具 -->
+                <div class="glass-card p-8 rounded-2xl shadow-sm">
+                    <h3 class="text-lg font-bold mb-6 flex items-center gap-2">
+                        <i class="fas fa-server text-indigo-600"></i> 後端與開發工具 Backend & Tools
+                    </h3>
+                    <div class="space-y-5">
+                        <!-- 💡 [可修改] 技能名稱與百分比 -->
+                        <div>
+                            <div class="flex justify-between text-sm font-medium mb-1">
+                                <span>Node.js / Express</span>
+                                <span class="text-slate-500">75%</span>
+                            </div>
+                            <div class="w-full h-2.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                                <div class="h-full bg-indigo-600 rounded-full transition-all duration-1000" style="width: 75%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-sm font-medium mb-1">
+                                <span>Git / GitHub Version Control</span>
+                                <span class="text-slate-500">90%</span>
+                            </div>
+                            <div class="w-full h-2.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                                <div class="h-full bg-indigo-600 rounded-full transition-all duration-1000" style="width: 90%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-sm font-medium mb-1">
+                                <span>RESTful API Integration</span>
+                                <span class="text-slate-500">85%</span>
+                            </div>
+                            <div class="w-full h-2.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                                <div class="h-full bg-indigo-600 rounded-full transition-all duration-1000" style="width: 85%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-sm font-medium mb-1">
+                                <span>UI/UX Design (Figma)</span>
+                                <span class="text-slate-500">80%</span>
+                            </div>
+                            <div class="w-full h-2.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                                <div class="h-full bg-indigo-600 rounded-full transition-all duration-1000" style="width: 80%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. 工作與專案經歷 Timeline Section -->
+    <section id="experience" class="py-20 bg-slate-100/60 dark:bg-slate-800/40">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h2 class="text-3xl font-bold mb-3">經歷與專案</h2>
+                <div class="w-16 h-1 bg-brand-600 mx-auto rounded-full mb-4"></div>
+                <p class="text-slate-600 dark:text-slate-400">回顧我的職涯旅程與精選專案成果</p>
+            </div>
+
+            <!-- 時間軸容器 -->
+            <div class="relative timeline-line space-y-12">
+                
+                <!-- 💡 [可修改] 經歷卡片 1 -->
+                <div class="relative flex flex-col md:flex-row items-center">
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full bg-brand-600 text-white font-bold z-10 shadow-md mb-4 md:mb-0 md:absolute md:left-1/2 md:-translate-x-1/2">
+                        <i class="fas fa-briefcase text-sm"></i>
+                    </div>
+                    
+                    <div class="w-full md:w-1/2 md:pr-12 md:text-right">
+                        <div class="glass-card p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+                            <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-brand-100 dark:bg-brand-900/50 text-brand-700 dark:text-brand-300 mb-2">
+                                2022 / 03 - 至今
+                            </span>
+                            <h3 class="text-xl font-bold">資深前端工程師</h3>
+                            <p class="text-sm text-slate-500 dark:text-slate-400 mb-3">ABC 科技股份有限公司</p>
+                            <ul class="text-slate-600 dark:text-slate-300 text-sm space-y-1.5 list-disc list-inside md:list-none">
+                                <li>主導企業 SaaS 平台前端架構重構，提升網頁載入速度達 40%</li>
+                                <li>建立團隊 UI 元件庫，減少新功能開發時程近 30%</li>
+                                <li>指導 3 位初階工程師，執行 Code Review 確保優質程式碼品質</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="hidden md:block w-1/2"></div>
+                </div>
+
+                <!-- 💡 [可修改] 專案卡片 2 -->
+                <div class="relative flex flex-col md:flex-row items-center">
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full bg-indigo-600 text-white font-bold z-10 shadow-md mb-4 md:mb-0 md:absolute md:left-1/2 md:-translate-x-1/2">
+                        <i class="fas fa-laptop-code text-sm"></i>
+                    </div>
+
+                    <div class="hidden md:block w-1/2"></div>
+                    <div class="w-full md:w-1/2 md:pl-12">
+                        <div class="glass-card p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+                            <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 mb-2">
+                                精選個人專案
+                            </span>
+                            <h3 class="text-xl font-bold">SmartDash - 智慧數據儀表板</h3>
+                            <p class="text-sm text-slate-500 dark:text-slate-400 mb-3">全端電商數據視覺化工具</p>
+                            <p class="text-slate-600 dark:text-slate-300 text-sm mb-4">
+                                使用 React 與 Chart.js 打造的即時數據看板，支援多維度報表導出與暗黑模式切換。
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-2.5 py-0.5 rounded text-xs bg-slate-200 dark:bg-slate-700">React</span>
+                                <span class="px-2.5 py-0.5 rounded text-xs bg-slate-200 dark:bg-slate-700">Tailwind CSS</span>
+                                <span class="px-2.5 py-0.5 rounded text-xs bg-slate-200 dark:bg-slate-700">Chart.js</span>
+                            </div>
+                            <div class="flex items-center space-x-3 text-sm">
+                                <a href="#" onclick="alertToast('可替換為您的 Demo 連結！')" class="text-brand-600 dark:text-brand-400 font-medium hover:underline">
+                                    <i class="fas fa-external-link-alt mr-1"></i>線上預覽
+                                </a>
+                                <a href="https://github.com" target="_blank" class="text-slate-500 hover:text-slate-800 dark:hover:text-white">
+                                    <i class="fab fa-github mr-1"></i>原始碼
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 💡 [可修改] 經歷卡片 3 -->
+                <div class="relative flex flex-col md:flex-row items-center">
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full bg-slate-600 text-white font-bold z-10 shadow-md mb-4 md:mb-0 md:absolute md:left-1/2 md:-translate-x-1/2">
+                        <i class="fas fa-graduation-cap text-sm"></i>
+                    </div>
+
+                    <div class="w-full md:w-1/2 md:pr-12 md:text-right">
+                        <div class="glass-card p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+                            <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 mb-2">
+                                2018 / 09 - 2022 / 06
+                            </span>
+                            <h3 class="text-xl font-bold">資訊工程學系 學士</h3>
+                            <p class="text-sm text-slate-500 dark:text-slate-400 mb-2">國立綜合大學</p>
+                            <p class="text-slate-600 dark:text-slate-300 text-sm">
+                                專攻網頁系統開發與軟體工程，曾獲得畢業專案展優等獎。
+                            </p>
+                        </div>
+                    </div>
+                    <div class="hidden md:block w-1/2"></div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. 聯絡資訊與社群平台 Contact Section -->
+    <section id="contact" class="py-20">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h2 class="text-3xl font-bold mb-3">與我聯繫</h2>
+                <div class="w-16 h-1 bg-brand-600 mx-auto rounded-full mb-4"></div>
+                <p class="text-slate-600 dark:text-slate-400">無論是工作機會、專案合作或技術交流，都非常歡迎與我聯繫！</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                
+                <!-- 聯絡資訊卡片 -->
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="glass-card p-6 rounded-2xl flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-xl bg-brand-100 dark:bg-brand-900/50 text-brand-600 dark:text-brand-300 flex items-center justify-center text-xl shrink-0">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="grow">
+                            <span class="text-xs text-slate-500 dark:text-slate-400">電子郵件</span>
+                            <!-- 💡 [可修改] Email -->
+                            <p class="font-semibold text-slate-800 dark:text-slate-100">alex.chen@example.com</p>
+                        </div>
+                        <button onclick="copyToClipboard('alex.chen@example.com')" class="p-2 text-slate-400 hover:text-brand-600 transition-colors" title="複製 Email">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-2xl flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-xl bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-300 flex items-center justify-center text-xl shrink-0">
+                            <i class="fas fa-location-dot"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-500 dark:text-slate-400">居住地點</span>
+                            <!-- 💡 [可修改] 地點 -->
+                            <p class="font-semibold text-slate-800 dark:text-slate-100">台灣，台北市 (Taipei, Taiwan)</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-2xl flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-300 flex items-center justify-center text-xl shrink-0">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-500 dark:text-slate-400">工作狀態</span>
+                            <!-- 💡 [可修改] 狀態描述 -->
+                            <p class="font-semibold text-slate-800 dark:text-slate-100">隨時可面議 / 可遠端工作</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 聯絡表單 -->
+                <div class="lg:col-span-7">
+                    <form id="contact-form" onsubmit="handleFormSubmit(event)" class="glass-card p-8 rounded-2xl space-y-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium mb-2">您的姓名</label>
+                                <input type="text" required placeholder="例如：張先生" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2">電子信箱</label>
+                                <input type="email" required placeholder="your.email@example.com" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium mb-2">主旨</label>
+                            <input type="text" required placeholder="專案合作需求 / 求職邀約" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium mb-2">訊息內容</label>
+                            <textarea rows="4" required placeholder="請簡述您的需求或想法..." class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full py-3.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-medium shadow-lg shadow-brand-500/25 transition-all">
+                            <i class="fas fa-paper-plane mr-2"></i>傳送訊息
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 頁尾 Footer -->
+    <footer class="py-8 border-t border-slate-200 dark:border-slate-800 text-center text-sm text-slate-500 dark:text-slate-400">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <!-- 💡 [可修改] 版權宣告 -->
+            <p>© 2026 Alex Chen. All rights reserved.</p>
+            <p>Designed with <i class="fas fa-heart text-red-500"></i> using Tailwind CSS</p>
+        </div>
+    </footer>
+
+    <!-- 自訂 Toast 通知彈窗 (非 alert) -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-3 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-xl transition-all duration-300 transform translate-y-20 opacity-0 pointer-events-none">
+        <i id="toast-icon" class="fas fa-circle-check text-emerald-400 dark:text-emerald-600"></i>
+        <span id="toast-message" class="text-sm font-medium">訊息已成功送出！</span>
+    </div>
+
+    <!-- JS 邏輯 -->
+    <script>
+        // 主題切換邏輯
+        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+        const themeToggleBtn = document.getElementById('theme-toggle');
+
+        // 檢查系統或 localStorage 的顏色主題偏好
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            themeToggleLightIcon.classList.remove('hidden');
+        } else {
+            document.documentElement.classList.remove('dark');
+            themeToggleDarkIcon.classList.remove('hidden');
+        }
+
+        themeToggleBtn.addEventListener('click', function() {
+            themeToggleDarkIcon.classList.toggle('hidden');
+            themeToggleLightIcon.classList.toggle('hidden');
+
+            if (localStorage.getItem('color-theme')) {
+                if (localStorage.getItem('color-theme') === 'light') {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                }
+            } else {
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                }
+            }
+        });
+
+        // 手機版選單切換
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // 自訂 Toast 提示訊息
+        function alertToast(message, isSuccess = true) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-message');
+            const toastIcon = document.getElementById('toast-icon');
+
+            toastMsg.textContent = message;
+            if (isSuccess) {
+                toastIcon.className = "fas fa-circle-check text-emerald-400 dark:text-emerald-600";
+            } else {
+                toastIcon.className = "fas fa-circle-exclamation text-amber-400 dark:text-amber-600";
+            }
+
+            toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+            }, 3000);
+        }
+
+        // 複製文字功能 (Safe execCommand fallback)
+        function copyToClipboard(text) {
+            const tempInput = document.createElement('input');
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            alertToast('已將 Email 複製到剪貼簿！');
+        }
+
+        // 表單提交模擬
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            alertToast('感謝您的來信！我會儘快回覆您。');
+            event.target.reset();
+        }
+    </script>
+</body>
+</html>
