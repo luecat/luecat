@@ -104,14 +104,25 @@ rknn-toolkit2 只能在 x86_64 上執行，所以轉換在電腦或 GitHub Actio
 
 系統穩定之後（Phase 1 之後）在板子上加上的使用習慣調整。
 
-### Mac 風格的複製貼上
+### Mac 風格的操作習慣（已決定：整台改成 Mac 習慣）
 
-- **目標**：Super（⌘）+ C/V/X 複製、貼上、剪下；Ctrl 保持原本功能，終端機的 Ctrl+C 仍然是中斷程式
-- **難點**：一般程式的複製是 Ctrl+C，終端機（Konsole）是 Ctrl+Shift+C，要依照目前的程式送出不同按鍵
-- **方案**：
-  - **keyd**（只要複製貼上時用）：Super+C/V/X 對應到 Ctrl+Insert、Shift+Insert、Shift+Delete，這三組在大部分程式都能用，也不會送出 Ctrl+C；Konsole 的「複製」要另外加上 Ctrl+Insert
-  - **Toshy**（想要整體 Mac 化時用）：自動判斷終端機；要先確認在 ARM64 和 Ubuntu 26.04 上能用
-- **完成標準**：在 Konsole、Firefox 或 Chromium、Kate、檔案管理員裡，Super+C/V 都能正常複製貼上；Konsole 裡 Ctrl+C 仍然能中斷正在執行的程式
+**快捷鍵：用 [Toshy](https://github.com/RedBearAK/toshy)**（現成工具，不用自己編譯）
+
+- 安裝：`git clone https://github.com/RedBearAK/toshy && cd toshy && ./setup_toshy.py install`，安裝程式會自己建 Python 環境、裝相依套件、設定 systemd 使用者服務
+- KDE Plasma 6 Wayland 透過 Toshy 的 KWin script 支援；裝完要先切換一次視窗，依程式切換按鍵的功能才會生效
+- Ubuntu 26.04 太新的話，安裝程式可能不認得，選單裡可以手動指定成 Ubuntu
+- ARM64 沒有官方測試紀錄，要實測
+- 效果：Super（⌘）當 Mac 的 Command；複製貼上、⌘Q、⌘W、⌘Tab、⌘Space（開 KRunner）等都改成 Mac 習慣，終端機會自動對應成 Ctrl+Shift 的版本，Ctrl+C 仍然是中斷程式
+- 備案：Toshy 在這塊板子上不能用的話，改用 keyd，只把 Super+C/V/X 對應到 Ctrl+Insert、Shift+Insert、Shift+Delete
+
+**外觀（選做）：** KDE 設定就能做到，不用另外編譯
+
+- 視窗按鈕放左邊、上方全域選單列、底部改成置中的 dock 面板
+- 觸控板自然捲動
+- Mac 風格的主題和圖示（例如 WhiteSur）
+- 模糊、透明這類特效會吃 GPU，在 RK3566 上要實測流暢度，太卡就關掉
+
+**完成標準：** 在 Konsole、Firefox 或 Chromium、Kate、檔案管理員裡，⌘+C/V 都能正常複製貼上；Konsole 裡 Ctrl+C 仍然能中斷程式；重開機後設定仍然有效
 
 ## 修 issue 的流程
 
