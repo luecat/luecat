@@ -27,6 +27,17 @@
 
 **新核心的選項：** 主線 Current 6.18 加上 [w568w/rknpu-module](https://github.com/w568w/rknpu-module)（把 Vendor 的 rknpu 驅動做成 DKMS 模組，給主線核心用），可能同時得到新核心和官方 RKNN 工具鏈。Phase 1 要同時測 Vendor 6.1 和 Current 6.18（`armbian-config` 可以切換核心）：如果 6.18 的閃爍和其他 issue 比較少，而且 rknpu-module 能在 6.18 上正常運作，就改用 6.18 當主線核心。
 
+**混合核心策略（主線為底，從 BSP 補功能）：** 不把 BSP 整個合併進主線（改動量太大、衝突太多），而是以主線為底，缺什麼功能就從 BSP 挑什麼移植，每項都做成獨立的模組或 patch，出問題可以單獨拿掉。
+
+| 功能 | 主線 6.18 | 補法 |
+|---|---|---|
+| CPU、USB、NVMe、網路、Wi-Fi、RGA | 有 | 不用補 |
+| GPU | panfrost，比 BSP 好 | 不用補 |
+| HDMI 顯示、聲音 | 有 | 閃爍要測，有問題再加 patch |
+| NPU | 沒有 | 從 BSP 補：rknpu DKMS 模組 |
+| 影片硬體解碼 | 部分（V4L2） | 優先用主線方式 + 支援 V4L2 的 FFmpeg；BSP 的 MPP 依賴太深，不移植 |
+| 影片硬體編碼、相機 ISP | 有限 | 實測後再評估 |
+
 **NPU 的 Python 版本問題：** RKNN 的 Python 套件通常落後於 Ubuntu 26.04 的 Python 版本，所以 NPU 用 `uv` 建立獨立環境，裝它支援的 Python 版本。系統本身照樣用最新版。
 
 ## 待確認
