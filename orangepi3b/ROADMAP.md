@@ -100,6 +100,19 @@ rknn-toolkit2 只能在 x86_64 上執行，所以轉換在電腦或 GitHub Actio
 3. **速度**：記錄每秒處理的句數，和 CPU 版比較
 4. **穩定**：連續跑 1 小時不出錯、記憶體不持續增加
 
+## 客製功能
+
+系統穩定之後（Phase 1 之後）在板子上加上的使用習慣調整。
+
+### Mac 風格的複製貼上
+
+- **目標**：Super（⌘）+ C/V/X 複製、貼上、剪下；Ctrl 保持原本功能，終端機的 Ctrl+C 仍然是中斷程式
+- **難點**：一般程式的複製是 Ctrl+C，終端機（Konsole）是 Ctrl+Shift+C，要依照目前的程式送出不同按鍵
+- **方案**：
+  - **keyd**（只要複製貼上時用）：Super+C/V/X 對應到 Ctrl+Insert、Shift+Insert、Shift+Delete，這三組在大部分程式都能用，也不會送出 Ctrl+C；Konsole 的「複製」要另外加上 Ctrl+Insert
+  - **Toshy**（想要整體 Mac 化時用）：自動判斷終端機；要先確認在 ARM64 和 Ubuntu 26.04 上能用
+- **完成標準**：在 Konsole、Firefox 或 Chromium、Kate、檔案管理員裡，Super+C/V 都能正常複製貼上；Konsole 裡 Ctrl+C 仍然能中斷正在執行的程式
+
 ## 修 issue 的流程
 
 1. **記錄**：在 [ISSUES.md](ISSUES.md) 新增一筆，寫下症狀和重現方式
