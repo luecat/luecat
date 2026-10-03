@@ -124,6 +124,21 @@ rknn-toolkit2 只能在 x86_64 上執行，所以轉換在電腦或 GitHub Actio
 
 **完成標準：** 在 Konsole、Firefox 或 Chromium、Kate、檔案管理員裡，⌘+C/V 都能正常複製貼上；Konsole 裡 Ctrl+C 仍然能中斷程式；重開機後設定仍然有效
 
+### Vulkan（實驗性）
+
+- Mesa 的 **PanVK** 已經支援 Mali-G52（Bifrost），回報 Vulkan 1.3，但仍是實驗性質，預設不會載入
+- 需要主線核心的 **panfrost** 驅動，所以走 Current 6.18；Vendor 6.1 預設用 Mali 閉源的 kbase 驅動，不適用
+- 啟用方式：
+  ```bash
+  sudo apt install mesa-vulkan-drivers vulkan-tools
+  ls /usr/share/vulkan/icd.d/ | grep -i panfrost     # 確認 Ubuntu 的 Mesa 有附 PanVK
+  PAN_I_WANT_A_BROKEN_VULKAN_DRIVER=1 vulkaninfo --summary
+  PAN_I_WANT_A_BROKEN_VULKAN_DRIVER=1 vkcube
+  ```
+- Ubuntu 的套件沒有附 PanVK，或版本太舊的話，自己編 Mesa（見 [BUILDING.md](BUILDING.md) 第 7 關）
+- **完成標準**：`vulkaninfo` 列出 Mali-G52；`vkcube` 連續跑 10 分鐘不當機；再依照要用的程式逐一測試
+- 不建議設成全系統預設：桌面繼續用 panfrost 的 OpenGL，只對需要 Vulkan 的程式開啟
+
 ## 修 issue 的流程
 
 1. **記錄**：在 [ISSUES.md](ISSUES.md) 新增一筆，寫下症狀和重現方式

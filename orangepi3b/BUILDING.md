@@ -144,6 +144,38 @@ dmesg | grep luecat     # Hello from luecat!
 
 ---
 
+## 第 7 關（番外）：自己編 Mesa，開啟 Vulkan
+
+**目標**：編出最新版的 Mesa，讓 Mali-G52 支援 Vulkan（PanVK，實驗性）。需要主線核心（`current`）。
+
+直接在 Orange Pi 上編最簡單（大約 30 到 60 分鐘）：
+
+```bash
+sudo apt build-dep -y mesa      # 需要先在 /etc/apt/sources.list.d/ 開啟 deb-src
+sudo apt install -y git meson ninja-build
+git clone --depth=1 https://gitlab.freedesktop.org/mesa/mesa.git
+cd mesa
+meson setup build \
+  -Dprefix=$HOME/mesa-install \
+  -Dgallium-drivers=panfrost \
+  -Dvulkan-drivers=panfrost \
+  -Dbuildtype=release
+ninja -C build install
+```
+
+裝在自己的家目錄，不會蓋掉系統的 Mesa。只在要測試時使用：
+
+```bash
+export VK_ICD_FILENAMES=$HOME/mesa-install/share/vulkan/icd.d/panfrost_icd.aarch64.json
+export PAN_I_WANT_A_BROKEN_VULKAN_DRIVER=1
+vulkaninfo --summary
+vkcube
+```
+
+**成果**：`vulkaninfo` 列出 Mali-G52，`vkcube` 的方塊在轉。
+
+---
+
 ## 遇到問題時
 
 - 錯誤訊息整段貼給 Claude
