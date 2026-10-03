@@ -10,7 +10,7 @@
 - [ ] [Mac 風格的外觀](#2-mac-風格的外觀)
 - [ ] [繁體中文和注音輸入法](#3-繁體中文和注音輸入法)
 - [ ] [NPU](#4-npu)
-- [ ] [Vulkan 和遊戲](#5-vulkan-和遊戲實驗性)
+- [ ] [遊戲](#5-遊戲)
 
 ---
 
@@ -192,22 +192,9 @@ ls -l /dev/dri/renderD*
 
 ---
 
-## 5. Vulkan 和遊戲（實驗性）
+## 5. 遊戲
 
-Mali-G52 的開源 Vulkan 驅動（PanVK）還在實驗階段，預設不會載入。
-
-```bash
-sudo apt install -y mesa-vulkan-drivers vulkan-tools
-ls /usr/share/vulkan/icd.d/ | grep -i panfrost      # 確認有 PanVK
-PAN_I_WANT_A_BROKEN_VULKAN_DRIVER=1 vulkaninfo --summary
-PAN_I_WANT_A_BROKEN_VULKAN_DRIVER=1 vkcube
-```
-
-- 環境變數只加在要用 Vulkan 的程式前面，**不要設成全系統預設**
-- 可能會當機，當了就重開機
-- Ubuntu 的 Mesa 沒有附 PanVK 的話，可以自己編 Mesa（見 [BUILDING.md](BUILDING.md) 第 7 關）
-
-### 遊戲
+用 GPU 的 OpenGL（panfrost）就好，不用 Vulkan。
 
 | 類型 | 程式 | 預期 |
 |---|---|---|
@@ -216,10 +203,8 @@ PAN_I_WANT_A_BROKEN_VULKAN_DRIVER=1 vkcube
 | 原生 Linux 遊戲 | SuperTuxKart、Luanti、OpenTTD | 輕量的可以 |
 | GameCube、Wii、PS2、Steam 的 PC 遊戲 | — | 大多跑不動 |
 
-- 每個遊戲都試試 OpenGL 和 Vulkan，哪個順就用哪個（目前通常是 OpenGL 比較穩）
+- 模擬器的繪圖後端選 **OpenGL**
 - 裝散熱片，畫面設 720p，玩的時候把 GNOME 動畫關掉
-
-**完成的樣子**：`vkcube` 連續轉 10 分鐘不當機；想玩的遊戲能順順地玩。
 
 ---
 

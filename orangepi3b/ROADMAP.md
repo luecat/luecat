@@ -149,7 +149,10 @@ sudo apt install -y ibus-chewing
 
 **完成標準**：終端機、Firefox、Chromium、文字編輯器、LibreOffice 都能打中文，選字窗出現在游標旁邊；重開機後輸入法自動啟動
 
-### Vulkan（實驗性）
+### Vulkan（實驗性，使用者決定不做）
+
+使用者決定不需要 Vulkan，遊戲用 panfrost 的 OpenGL。以下保留當參考。
+
 
 - Mesa 的 **PanVK** 已經支援 Mali-G52（Bifrost），回報 Vulkan 1.3，但仍是實驗性質，預設不會載入
 - 需要主線核心的 **panfrost** 驅動，所以走 Current 6.18；Vendor 6.1 預設用 Mali 閉源的 kbase 驅動，不適用

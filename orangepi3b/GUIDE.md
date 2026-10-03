@@ -9,7 +9,7 @@
 - [ ] **主線核心 6.18 + NPU**（rknpu 模組）
 - [ ] **繁體中文 + 注音輸入法**
 - [ ] **Mac 風格**：⌘ 快捷鍵（終端機的 Ctrl+C 不受影響）和外觀
-- [ ] **Vulkan 和遊戲**（實驗性）
+- [ ] **遊戲**（復古遊戲和模擬器）
 - [ ] 最後**裝到 NVMe**，拔掉 SD 卡也能開機
 
 ## 硬體
@@ -210,19 +210,9 @@ ls -l /dev/dri/renderD*
 
 **完成的樣子**：`dmesg` 看得到 rknpu，官方範例模型在 NPU 上推論成功。
 
-## 8. Vulkan 和遊戲（實驗性）
+## 8. 遊戲
 
-```bash
-sudo apt install -y mesa-vulkan-drivers vulkan-tools
-ls /usr/share/vulkan/icd.d/ | grep -i panfrost
-PAN_I_WANT_A_BROKEN_VULKAN_DRIVER=1 vulkaninfo --summary
-PAN_I_WANT_A_BROKEN_VULKAN_DRIVER=1 vkcube
-```
-
-- 這個環境變數只在要用 Vulkan 的程式前面加，**不要設成全系統預設**
-- Ubuntu 的 Mesa 沒有附 PanVK 的話，可以自己編 Mesa（見 [BUILDING.md](BUILDING.md) 第 7 關）
-
-遊戲：
+用 GPU 的 OpenGL（panfrost）就好，不用 Vulkan。
 
 | 類型 | 程式 | 預期 |
 |---|---|---|
@@ -231,9 +221,9 @@ PAN_I_WANT_A_BROKEN_VULKAN_DRIVER=1 vkcube
 | 原生 Linux 遊戲 | SuperTuxKart、Luanti、OpenTTD | 輕量的可以 |
 | GameCube、Wii、PS2、Steam 的 PC 遊戲 | — | 大多跑不動 |
 
-每個遊戲都試試 OpenGL 和 Vulkan，哪個順就用哪個（目前通常是 OpenGL 比較穩）。玩遊戲時建議裝散熱片，畫面設 720p。
+模擬器的繪圖後端選 **OpenGL**。玩遊戲時建議裝散熱片，畫面設 720p。
 
-**完成的樣子**：`vkcube` 連續轉 10 分鐘不當機；想玩的遊戲能順順地玩。
+**完成的樣子**：想玩的遊戲能順順地玩。
 
 ## 9. 裝到 NVMe
 
