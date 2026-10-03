@@ -138,6 +138,17 @@ rknn-toolkit2 只能在 x86_64 上執行，所以轉換在電腦或 GitHub Actio
 - Ubuntu 的套件沒有附 PanVK，或版本太舊的話，自己編 Mesa（見 [BUILDING.md](BUILDING.md) 第 7 關）
 - **完成標準**：`vulkaninfo` 列出 Mali-G52；`vkcube` 連續跑 10 分鐘不當機；再依照要用的程式逐一測試
 - 不建議設成全系統預設：桌面繼續用 panfrost 的 OpenGL，只對需要 Vulkan 的程式開啟
+- **用途：玩遊戲**。測試清單（每項都比較 OpenGL 和 Vulkan，記錄哪個比較順、哪個比較穩）：
+
+  | 類型 | 程式 | 預期 |
+  |---|---|---|
+  | 復古遊戲（8/16 位元、GBA、PS1） | RetroArch、DuckStation | 很順，最適合這塊板子 |
+  | PSP、Dreamcast | PPSSPP、Flycast | 多數遊戲可玩，可能要降解析度 |
+  | 原生 Linux 遊戲 | SuperTuxKart、Luanti、OpenTTD | 輕量的可以；SuperTuxKart 要調低畫質 |
+  | GameCube、Wii、PS2 | Dolphin 等 | CPU 和 GPU 都太弱，大多跑不動 |
+  | x86 的 PC 遊戲（Steam） | box64 + Wine + DXVK | 不建議，A55 核心太慢，只有很輕的舊遊戲有機會 |
+
+- 效能相關：裝散熱片或風扇；玩遊戲時 CPU governor 設成 performance；畫面解析度設 720p 比較順
 
 ## 修 issue 的流程
 
