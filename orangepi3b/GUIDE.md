@@ -15,7 +15,7 @@
 
 - Orange Pi 3B **v2.1**、**4GB** RAM
 - 目前的系統在 NVMe 上，開機程式在 SPI Flash
-- 測試全程用 SD 卡，**NVMe 上的舊系統到第 9 步之前都不會動**
+- 測試全程用 SD 卡，**NVMe 上的舊系統到第 8 步之前都不會動**
 
 ---
 
@@ -23,7 +23,7 @@
 
 - SD 卡：**32GB 以上**
 - 鍵盤、滑鼠、螢幕（第一次開機要設定帳號）
-- USB 隨身碟（第 9 步備份資料用）
+- USB 隨身碟（第 8 步備份資料用）
 - 映像檔：到 Armbian 的 Orange Pi 3B 下載頁，選 **Ubuntu 26.04、Current（6.18）、Minimal 或 CLI 版**（**不要選有桌面的版本**，桌面我們自己裝官方的）
   - 有 stable 版就用 stable，沒有再用 Rolling
 
