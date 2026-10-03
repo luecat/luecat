@@ -10,7 +10,7 @@
   1. 當日常桌面電腦使用
   2. 用 NPU 跑文字嵌入模型（embedding）
   3. 修掉官方不修的各種 issue
-- 計畫和架構決策見 [ROADMAP.md](ROADMAP.md)，issue 紀錄見 [ISSUES.md](ISSUES.md)
+- 照著做的步驟見 [GUIDE.md](GUIDE.md)，計畫和架構決策見 [ROADMAP.md](ROADMAP.md)，issue 紀錄見 [ISSUES.md](ISSUES.md)
 
 ## 規則
 

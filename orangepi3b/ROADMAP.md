@@ -200,6 +200,7 @@ sudo apt install -y ibus-chewing
 ```
 orangepi3b/
 ├── CLAUDE.md          # 給板子上的 Claude Code 看的背景說明
+├── GUIDE.md           # 照著做的安裝和設定步驟
 ├── ROADMAP.md         # 這份計畫
 ├── ISSUES.md          # issue 紀錄
 ├── BUILDING.md        # 自己編譯的練習關卡
