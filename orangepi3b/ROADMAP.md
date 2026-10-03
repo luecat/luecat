@@ -124,6 +124,31 @@ rknn-toolkit2 只能在 x86_64 上執行，所以轉換在電腦或 GitHub Actio
 
 **完成標準：** 在 Konsole、Firefox 或 Chromium、Kate、檔案管理員裡，⌘+C/V 都能正常複製貼上；Konsole 裡 Ctrl+C 仍然能中斷程式；重開機後設定仍然有效
 
+### 中文環境和輸入法
+
+**語系和字型**
+
+```bash
+sudo apt install -y $(check-language-support -l zh-hant) fonts-noto-cjk
+```
+
+`check-language-support` 會列出繁體中文缺少的語言包（包括 KDE 的翻譯），再到系統設定 → 區域和語言，把語言改成繁體中文（台灣）。
+
+**輸入法：fcitx5**（KDE Plasma 6 Wayland 上支援最好的輸入法框架）
+
+```bash
+sudo apt install -y fcitx5 fcitx5-chewing kde-config-fcitx5 \
+  fcitx5-frontend-gtk3 fcitx5-frontend-gtk4 fcitx5-frontend-qt6
+```
+
+- 注音用 `fcitx5-chewing`（新酷音）；倉頡、行列、速成等在 `fcitx5-table-extra`；也可以用 `fcitx5-rime`
+- 系統設定 → 鍵盤 → **虛擬鍵盤** → 選 **Fcitx 5**，讓 KWin 用 Wayland 的方式啟動輸入法
+- KDE Wayland 下**不要**設定 `GTK_IM_MODULE`、`QT_IM_MODULE` 環境變數（會造成選字窗位置錯誤或閃爍）；只設 `XMODIFIERS=@im=fcitx` 給 X11 程式用
+- Chromium 和 Electron 程式（例如 VS Code）要加啟動參數 `--ozone-platform=wayland --enable-wayland-ime` 才能打中文；Firefox 不用
+- 切換中英：Mac 習慣是 Ctrl+Space 切換輸入法、Caps Lock 切換中英。要跟 Toshy 一起測，確認快捷鍵沒有衝突
+
+**完成標準**：Konsole、Firefox、Chromium、Kate、LibreOffice 都能打中文，選字窗出現在游標旁邊；重開機後輸入法自動啟動
+
 ### Vulkan（實驗性）
 
 - Mesa 的 **PanVK** 已經支援 Mali-G52（Bifrost），回報 Vulkan 1.3，但仍是實驗性質，預設不會載入
