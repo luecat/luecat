@@ -25,6 +25,8 @@
 - HDMI 的相容性比主線好
 - Rocket 和 Teflon 目前主要支援卷積網路，transformer 或 embedding 模型很可能大部分會退回 CPU
 
+**新核心的選項：** 主線 Current 6.18 加上 [w568w/rknpu-module](https://github.com/w568w/rknpu-module)（把 Vendor 的 rknpu 驅動做成 DKMS 模組，給主線核心用），可能同時得到新核心和官方 RKNN 工具鏈。Phase 1 要同時測 Vendor 6.1 和 Current 6.18（`armbian-config` 可以切換核心）：如果 6.18 的閃爍和其他 issue 比較少，而且 rknpu-module 能在 6.18 上正常運作，就改用 6.18 當主線核心。
+
 **NPU 的 Python 版本問題：** RKNN 的 Python 套件通常落後於 Ubuntu 26.04 的 Python 版本，所以 NPU 用 `uv` 建立獨立環境，裝它支援的 Python 版本。系統本身照樣用最新版。
 
 ## 待確認
@@ -42,7 +44,7 @@
 | 階段 | 內容 | 完成標準 |
 |---|---|---|
 | **0. 診斷** | 在現在的 NVMe 系統上跑 `tools/diag.sh`，收集硬體和顯示資訊 | 知道板子版本、目前的核心、閃爍屬於哪一類 |
-| **1. 基礎系統** | SD 卡燒 Armbian 26.04 Vendor + KDE 測試，修閃爍；確認 NPU 驅動載入，裝 librknnrt 跑官方範例模型 | 連續使用 1 小時不閃；NPU 範例模型推論成功 |
+| **1. 基礎系統** | SD 卡燒 Armbian 26.04 Vendor + KDE 測試，修閃爍；確認 NPU 驅動載入，裝 librknnrt 跑官方範例模型；切到 Current 6.18 比較閃爍和 issue，試 rknpu-module | 連續使用 1 小時不閃；NPU 範例模型推論成功；決定日常用哪個核心 |
 | **2. 客製映像檔** | 建立 `userpatches/`，把修正寫進映像檔，能自己編譯 | 自己編的映像檔開機就沒有已知問題 |
 | **3. NPU（延後）** | 嵌入模型轉成 `.rknn`，在 NPU 上執行並包成 API，細節見下方「嵌入模型」 | 達到下方「嵌入模型」的完成標準 |
 | **4. 修 issue** | 照 [ISSUES.md](ISSUES.md) 一個一個修 | 每個 issue 都有原因和修法，或註明修不了的理由 |
