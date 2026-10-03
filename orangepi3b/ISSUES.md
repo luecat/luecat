@@ -19,7 +19,7 @@
 - **要試的修正**：
   - 固定 60.00Hz：核心參數 `video=HDMI-A-1:1920x1080@60`
   - DDR 固定高頻：`echo performance | sudo tee /sys/class/devfreq/dmc/governor`（重開機後會失效，要永久生效再寫成 systemd service）
-  - KDE 登入畫面切換 X11 和 Wayland 比較
+  - GNOME 在 26.04 只有 Wayland，沒辦法切 X11 比較；改用關閉動畫（`gsettings set org.gnome.desktop.interface enable-animations false`）和比較兩個核心來判斷
   - 比較 Vendor 6.1 和 Current 6.18 核心
 
 ---

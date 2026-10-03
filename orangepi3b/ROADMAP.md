@@ -14,7 +14,7 @@
 |---|---|---|
 | 編譯框架 | Armbian build + `userpatches/` | 同左 |
 | 系統 | Ubuntu 26.04 | 同左 |
-| 桌面 | KDE Plasma 6（可以切 X11 和 Wayland，方便排查） | 同左 |
+| 桌面 | **GNOME**（Ubuntu 官方桌面，用 `ubuntu-desktop` 安裝；26.04 只有 Wayland）。原本選 KDE，使用者改成 GNOME | 同左 |
 | 核心 | **Vendor 6.1**（Rockchip BSP） | 主線 6.18 + Rocket RK3568 patch |
 | NPU | **rknpu 驅動 + RKNN**（`.rknn` 模型） | Rocket + Mesa Teflon（TFLite 模型） |
 | GPU | panfrost + 最新 Mesa（Phase 0 要確認 Vendor 核心能不能用 panfrost） | panfrost + PanVK（Vulkan，實驗性） |
@@ -43,7 +43,7 @@
 ## 待確認
 
 - [x] 板子版本：**v2.1**（Wi-Fi/藍牙是 AP6256，用 brcmfmac 驅動；主線 DTB 是 `rk3566-orangepi-3b-v2.1.dtb`）
-- [x] RAM 大小：**4GB**（KDE 加上小型嵌入模型夠用）
+- [x] RAM 大小：**4GB**（GNOME 加上小型嵌入模型夠用）
 - [x] 模型類型：文字嵌入模型（embedding）
 - [ ] 文字語言：中文、英文還是多語言？（決定用哪個模型）
 - [ ] 用途和規模：RAG、搜尋還是其他？大概要處理多少文件、每段多長？
@@ -55,7 +55,7 @@
 | 階段 | 內容 | 完成標準 |
 |---|---|---|
 | **0. 診斷** | 在現在的 NVMe 系統上跑 `tools/diag.sh`，收集硬體和顯示資訊 | 知道板子版本、目前的核心、閃爍屬於哪一類 |
-| **1. 基礎系統** | SD 卡燒 Armbian 26.04 Vendor + KDE 測試，修閃爍；確認 NPU 驅動載入，裝 librknnrt 跑官方範例模型；切到 Current 6.18 比較閃爍和 issue，試 rknpu-module | 連續使用 1 小時不閃；NPU 範例模型推論成功；決定日常用哪個核心 |
+| **1. 基礎系統** | SD 卡燒 Armbian 26.04 Minimal + `ubuntu-desktop`（GNOME）測試，修閃爍；確認 NPU 驅動載入，裝 librknnrt 跑官方範例模型；切到 Current 6.18 比較閃爍和 issue，試 rknpu-module | 連續使用 1 小時不閃；NPU 範例模型推論成功；決定日常用哪個核心 |
 | **2. 客製映像檔** | 建立 `userpatches/`，把修正寫進映像檔，能自己編譯 | 自己編的映像檔開機就沒有已知問題 |
 | **3. NPU（延後）** | 嵌入模型轉成 `.rknn`，在 NPU 上執行並包成 API，細節見下方「嵌入模型」 | 達到下方「嵌入模型」的完成標準 |
 | **4. 修 issue** | 照 [ISSUES.md](ISSUES.md) 一個一個修 | 每個 issue 都有原因和修法，或註明修不了的理由 |
@@ -109,20 +109,21 @@ rknn-toolkit2 只能在 x86_64 上執行，所以轉換在電腦或 GitHub Actio
 **快捷鍵：用 [Toshy](https://github.com/RedBearAK/toshy)**（現成工具，不用自己編譯）
 
 - 安裝：`git clone https://github.com/RedBearAK/toshy && cd toshy && ./setup_toshy.py install`，安裝程式會自己建 Python 環境、裝相依套件、設定 systemd 使用者服務
-- KDE Plasma 6 Wayland 透過 Toshy 的 KWin script 支援；裝完要先切換一次視窗，依程式切換按鍵的功能才會生效
+- GNOME Wayland 要裝一個 GNOME Shell 擴充功能，Toshy 才知道目前是哪個程式（依程式切換按鍵要靠它）；安裝程式會提示要裝哪一個
 - Ubuntu 26.04 太新的話，安裝程式可能不認得，選單裡可以手動指定成 Ubuntu
 - ARM64 沒有官方測試紀錄，要實測
-- 效果：Super（⌘）當 Mac 的 Command；複製貼上、⌘Q、⌘W、⌘Tab、⌘Space（開 KRunner）等都改成 Mac 習慣，終端機會自動對應成 Ctrl+Shift 的版本，Ctrl+C 仍然是中斷程式
+- 效果：Super（⌘）當 Mac 的 Command；複製貼上、⌘Q、⌘W、⌘Tab、⌘Space 等都改成 Mac 習慣，終端機會自動對應成 Ctrl+Shift 的版本，Ctrl+C 仍然是中斷程式
 - 備案：Toshy 在這塊板子上不能用的話，改用 keyd，只把 Super+C/V/X 對應到 Ctrl+Insert、Shift+Insert、Shift+Delete
 
-**外觀（選做）：** KDE 設定就能做到，不用另外編譯
+**外觀（選做）：** GNOME 設定加上主題就能做到，不用另外編譯
 
-- 視窗按鈕放左邊、上方全域選單列、底部改成置中的 dock 面板
-- 觸控板自然捲動
-- Mac 風格的主題和圖示（例如 WhiteSur）
-- 模糊、透明這類特效會吃 GPU，在 RK3566 上要實測流暢度，太卡就關掉
+- 視窗按鈕放左邊：`gsettings set org.gnome.desktop.wm.preferences button-layout 'close,minimize,maximize:'`
+- Ubuntu Dock 改成底部置中、只占需要的寬度（設定 → Ubuntu 桌面 → Dock）
+- Mac 風格的 GTK 主題、圖示、游標（例如 WhiteSur），用 GNOME Tweaks 套用
+- 觸控板自然捲動（設定 → 滑鼠和觸控板）
+- GNOME 的動畫比較吃 GPU，在 RK3566 上覺得卡的話：`gsettings set org.gnome.desktop.interface enable-animations false`
 
-**完成標準：** 在 Konsole、Firefox 或 Chromium、Kate、檔案管理員裡，⌘+C/V 都能正常複製貼上；Konsole 裡 Ctrl+C 仍然能中斷程式；重開機後設定仍然有效
+**完成標準：** 在終端機（Ptyxis 或 GNOME Terminal）、Firefox 或 Chromium、文字編輯器、檔案管理員裡，⌘+C/V 都能正常複製貼上；終端機裡 Ctrl+C 仍然能中斷程式；重開機後設定仍然有效
 
 ### 中文環境和輸入法
 
@@ -132,22 +133,21 @@ rknn-toolkit2 只能在 x86_64 上執行，所以轉換在電腦或 GitHub Actio
 sudo apt install -y $(check-language-support -l zh-hant) fonts-noto-cjk
 ```
 
-`check-language-support` 會列出繁體中文缺少的語言包（包括 KDE 的翻譯），再到系統設定 → 區域和語言，把語言改成繁體中文（台灣）。
+`check-language-support` 會列出繁體中文缺少的語言包，再到設定 → 系統 → 區域和語言，把語言改成繁體中文（台灣）。
 
-**輸入法：fcitx5**（KDE Plasma 6 Wayland 上支援最好的輸入法框架）
+**輸入法：IBus**（GNOME 內建整合的輸入法框架，GNOME 上比 fcitx5 省事）
 
 ```bash
-sudo apt install -y fcitx5 fcitx5-chewing kde-config-fcitx5 \
-  fcitx5-frontend-gtk3 fcitx5-frontend-gtk4 fcitx5-frontend-qt6
+sudo apt install -y ibus-chewing
 ```
 
-- 注音用 `fcitx5-chewing`（新酷音）；倉頡、行列、速成等在 `fcitx5-table-extra`；也可以用 `fcitx5-rime`
-- 系統設定 → 鍵盤 → **虛擬鍵盤** → 選 **Fcitx 5**，讓 KWin 用 Wayland 的方式啟動輸入法
-- KDE Wayland 下**不要**設定 `GTK_IM_MODULE`、`QT_IM_MODULE` 環境變數（會造成選字窗位置錯誤或閃爍）；只設 `XMODIFIERS=@im=fcitx` 給 X11 程式用
+- 注音用 `ibus-chewing`（新酷音）；倉頡、速成等在 `ibus-table-cangjie`、`ibus-table-quick` 等套件；也可以用 `ibus-rime`
+- 設定 → 鍵盤 → 輸入來源 → 加入「漢語（台灣）→ 新酷音」
+- GNOME 預設用 Super+Space 切換輸入來源，跟 Toshy 的 ⌘Space 會衝突。照 Mac 習慣改成 Ctrl+Space（設定 → 鍵盤 → 快捷鍵 → 打字），新酷音裡用 Shift 或 Caps Lock 切換中英
+- 不用設定 `GTK_IM_MODULE` 等環境變數，GNOME 會自己處理
 - Chromium 和 Electron 程式（例如 VS Code）要加啟動參數 `--ozone-platform=wayland --enable-wayland-ime` 才能打中文；Firefox 不用
-- 切換中英：Mac 習慣是 Ctrl+Space 切換輸入法、Caps Lock 切換中英。要跟 Toshy 一起測，確認快捷鍵沒有衝突
 
-**完成標準**：Konsole、Firefox、Chromium、Kate、LibreOffice 都能打中文，選字窗出現在游標旁邊；重開機後輸入法自動啟動
+**完成標準**：終端機、Firefox、Chromium、文字編輯器、LibreOffice 都能打中文，選字窗出現在游標旁邊；重開機後輸入法自動啟動
 
 ### Vulkan（實驗性）
 
