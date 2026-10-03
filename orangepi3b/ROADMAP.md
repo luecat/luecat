@@ -151,6 +151,7 @@ orangepi3b/
 ├── CLAUDE.md          # 給板子上的 Claude Code 看的背景說明
 ├── ROADMAP.md         # 這份計畫
 ├── ISSUES.md          # issue 紀錄
+├── BUILDING.md        # 自己編譯的練習關卡
 ├── tools/
 │   └── diag.sh        # 診斷腳本（只讀取資訊，不修改系統）
 └── userpatches/       # Phase 2 建立：Armbian 客製設定、核心 patch、overlay
