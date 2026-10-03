@@ -8,7 +8,7 @@
 - 目前系統：裝在 NVMe 上，開機程式在 SPI Flash
 - 目標：
   1. 當日常桌面電腦使用
-  2. 用 NPU 跑內嵌模型
+  2. 用 NPU 跑文字嵌入模型（embedding）
   3. 修掉官方不修的各種 issue
 - 計畫和架構決策見 [ROADMAP.md](ROADMAP.md)，issue 紀錄見 [ISSUES.md](ISSUES.md)
 
