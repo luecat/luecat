@@ -26,9 +26,10 @@
 
 ## 002 v2.1 板子用到 v1.1 的 DTB，有線網路完全不能用
 
-- **狀態**：已知問題，待確認是否影響這塊板子
+- **狀態**：會影響這塊板子（已確認是 v2.1）；待確認目前系統用的 DTB 正確
 - **原因**：v1.1 和 v2.1 的乙太網路 PHY IO 電壓（3.3V 和 1.8V）、reset 腳位（GPIO3_C2 和 GPIO4_C4）不同
-- **修正**：確認板子版本後，把 `/boot/armbianEnv.txt` 的 `fdtfile` 指到正確的 DTB
+- **修正**：確認 `/boot/armbianEnv.txt` 的 `fdtfile` 指向 v2.1 的 DTB。主線核心是 `rockchip/rk3566-orangepi-3b-v2.1.dtb`；Vendor 核心的檔名可能不同，以 `/boot/dtb/rockchip/` 裡實際有的檔案為準
+- **檢查**：有線網路正常就代表 DTB 正確；`diag.sh` 的「基本資訊」會列出 `fdtfile`
 - **參考**：[LKML: Add Xunlong Orange Pi 3B](https://lkml.iu.edu/2406.3/05012.html)
 
 ---

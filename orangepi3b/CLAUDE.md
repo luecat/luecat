@@ -4,7 +4,7 @@
 
 ## 背景
 
-- 硬體：Orange Pi 3B，板子版本（v1.1 或 v2.1）和 RAM 大小待確認
+- 硬體：Orange Pi 3B **v2.1**，**4GB** RAM。Wi-Fi/藍牙是 AP6256（brcmfmac）。DTB 必須是 v2.1 版，用到 v1.1 的 DTB 有線網路會壞（見 ISSUES.md #002）
 - 目前系統：裝在 NVMe 上，開機程式在 SPI Flash
 - 目標：
   1. 當日常桌面電腦使用
