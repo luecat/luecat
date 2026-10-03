@@ -166,7 +166,7 @@ sudo apt install -y ibus-chewing
 - Ubuntu 的套件沒有附 PanVK，或版本太舊的話，自己編 Mesa（見 [BUILDING.md](BUILDING.md) 第 7 關）
 - **完成標準**：`vulkaninfo` 列出 Mali-G52；`vkcube` 連續跑 10 分鐘不當機；再依照要用的程式逐一測試
 - 不建議設成全系統預設：桌面繼續用 panfrost 的 OpenGL，只對需要 Vulkan 的程式開啟
-- **用途：玩遊戲**。測試清單（每項都比較 OpenGL 和 Vulkan，記錄哪個比較順、哪個比較穩）：
+- **用途：玩遊戲（使用者決定不做，保留當參考）**。測試清單（每項都比較 OpenGL 和 Vulkan，記錄哪個比較順、哪個比較穩）：
 
   | 類型 | 程式 | 預期 |
   |---|---|---|

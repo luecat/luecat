@@ -10,7 +10,6 @@
 - [ ] [Mac 風格的外觀](#2-mac-風格的外觀)
 - [ ] [繁體中文和注音輸入法](#3-繁體中文和注音輸入法)
 - [ ] [NPU](#4-npu)
-- [ ] [遊戲](#5-遊戲)
 
 ---
 
@@ -189,22 +188,6 @@ ls -l /dev/dri/renderD*
 - 模型要先在 **x86_64 電腦**上用 rknn-toolkit2 轉成 `.rknn`，板子上只負責推論
 
 **完成的樣子**：`dmesg` 看得到 rknpu，範例模型在 NPU 上推論成功。
-
----
-
-## 5. 遊戲
-
-用 GPU 的 OpenGL（panfrost）就好，不用 Vulkan。
-
-| 類型 | 程式 | 預期 |
-|---|---|---|
-| 紅白機、超任、GBA、PS1 | RetroArch、DuckStation | 很順 |
-| PSP、Dreamcast | PPSSPP、Flycast | 多數可以玩，可能要降解析度 |
-| 原生 Linux 遊戲 | SuperTuxKart、Luanti、OpenTTD | 輕量的可以 |
-| GameCube、Wii、PS2、Steam 的 PC 遊戲 | — | 大多跑不動 |
-
-- 模擬器的繪圖後端選 **OpenGL**
-- 裝散熱片，畫面設 720p，玩的時候把 GNOME 動畫關掉
 
 ---
 

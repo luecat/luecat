@@ -9,7 +9,6 @@
 - [ ] **主線核心 6.18 + NPU**（rknpu 模組）
 - [ ] **繁體中文 + 注音輸入法**
 - [ ] **Mac 風格**：⌘ 快捷鍵（終端機的 Ctrl+C 不受影響）和外觀
-- [ ] **遊戲**（復古遊戲和模擬器）
 - [ ] 最後**裝到 NVMe**，拔掉 SD 卡也能開機
 
 ## 硬體
@@ -210,22 +209,7 @@ ls -l /dev/dri/renderD*
 
 **完成的樣子**：`dmesg` 看得到 rknpu，官方範例模型在 NPU 上推論成功。
 
-## 8. 遊戲
-
-用 GPU 的 OpenGL（panfrost）就好，不用 Vulkan。
-
-| 類型 | 程式 | 預期 |
-|---|---|---|
-| 紅白機、超任、GBA、PS1 | RetroArch、DuckStation | 很順 |
-| PSP、Dreamcast | PPSSPP、Flycast | 多數可以玩，可能要降解析度 |
-| 原生 Linux 遊戲 | SuperTuxKart、Luanti、OpenTTD | 輕量的可以 |
-| GameCube、Wii、PS2、Steam 的 PC 遊戲 | — | 大多跑不動 |
-
-模擬器的繪圖後端選 **OpenGL**。玩遊戲時建議裝散熱片，畫面設 720p。
-
-**完成的樣子**：想玩的遊戲能順順地玩。
-
-## 9. 裝到 NVMe
+## 8. 裝到 NVMe
 
 **SD 卡上的系統用幾天、確定都沒問題再做。這一步會清空整顆 NVMe。**
 
@@ -258,7 +242,7 @@ SD 卡上做好的所有設定都會一起複製過去。SD 卡留著當救援�
 
 **完成的樣子**：拔掉 SD 卡也能開機，所有功能都跟在 SD 卡上一樣。
 
-## 10. 之後：修 issue
+## 9. 之後：修 issue
 
 遇到怪問題，跟板子上的 Claude 說：「記一筆 issue：（描述症狀）」。它會記進 [ISSUES.md](ISSUES.md)，找原因、修正，並記下怎麼還原。
 
